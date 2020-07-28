@@ -1,7 +1,7 @@
 {
   "name": "@vue-a11y/focus-loop",
   "version": "0.0.1",
-  "description": "",
+  "description": "Vue component that helps you to to trap focus in an element.",
   "main": "dist/vue-focus-loop.ssr.js",
   "browser": "dist/vue-focus-loop.esm.js",
   "module": "dist/vue-focus-loop.esm.js",
