@@ -48,7 +48,7 @@ export default {
       return []
     },
 
-    handleFocusStart (e) {
+    handleFocusStart () {
       const elements = this.getFocusableElements()
       if (elements.length) {
         const index = this.alreadyFocused ? elements.length - 1 : 0
