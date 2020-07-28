@@ -1,7 +1,6 @@
 <template>
   <div class="vue-focus-loop">
     <div
-      class="vue-focus-loop__start"
       :tabindex="getTabindex"
       @focus="handleFocusStart"
     />
@@ -9,7 +8,6 @@
       <slot />
     </div>
     <div
-      class="vue-focus-loop__end"
       :tabindex="getTabindex"
       @focus="handleFocusEnd"
     />
