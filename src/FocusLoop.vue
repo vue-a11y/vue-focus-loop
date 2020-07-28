@@ -15,7 +15,14 @@
 </template>
 
 <script>
-const focusableElementsSelector = `[tabindex]:not([tabindex^="-"]), a[href], audio[controls], ${['input', 'select', 'button', 'textarea'].map(field => `${field}:not([disabled])`).join(', ')}`
+const focusableElementsSelector = [
+  ...['input', 'select', 'button', 'textarea'].map(field => `${field}:not([disabled])`),
+  'a[href]',
+  'video[controls]',
+  'audio[controls]',
+  '[tabindex]:not([tabindex^="-"])',
+  '[contenteditable]:not([contenteditable="false"])'
+].join(',')
 
 export default {
   name: 'FocusLoop',
