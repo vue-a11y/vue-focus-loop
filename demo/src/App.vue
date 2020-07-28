@@ -2,7 +2,7 @@
   <div id="app">
     <img
       alt="Vue logo"
-      src="./assets/logo.png"
+      src="./assets/vue-a11y-logo.png"
     >
     <HelloWorld msg="@vue-a11y/focus-loop" />
   </div>
