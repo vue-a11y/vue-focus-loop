@@ -103,6 +103,26 @@ For example:
 
 ```
 
+## Focus in first element
+
+There are 2 ways in which `<FocusLoop>` sets the focus on the first element.
+
+Using `v-if`, for example `<FocusLoop v-if="isSidebarOpen">`, the first element is automatically focused when `mounted`.
+
+If you have `<FocusLoop>` mounted, but hidden using CSS, you can set the focus on the first element when visible.
+
+prop        | type      | default
+----------- | --------- | ------------
+isVisible   | `Boolean` | `false`
+
+For example:
+
+```html
+<FocusLoop :isVisible="isSidebarOpen">
+  <!-- your elements here -->
+</FocusLoop>
+```
+
 ## Keyboard support
 
 Keyboard users will use `Tab` and `Shift + Tab` to navigate tabbable elements.  
