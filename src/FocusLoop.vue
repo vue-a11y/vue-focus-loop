@@ -32,7 +32,7 @@ export default {
       type: Boolean,
       default: false
     },
-    isActive: {
+    isVisible: {
       type: Boolean,
       default: false
     }
@@ -51,7 +51,7 @@ export default {
   },
 
   watch: {
-    isActive: 'focusFirst'
+    isVisible: 'focusFirst'
   },
 
   mounted () {
