@@ -31,6 +31,10 @@ export default {
     disabled: {
       type: Boolean,
       default: false
+    },
+    isActive: {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -46,11 +50,25 @@ export default {
     }
   },
 
+  watch: {
+    isActive: 'focusFirst'
+  },
+
+  mounted () {
+    this.focusFirst(this.isVisible || true)
+  },
+
   methods: {
     getFocusableElements () {
       const focusableElements = this.$refs.focusLoop.querySelectorAll(focusableElementsSelector)
       if (focusableElements && focusableElements.length) return focusableElements
       return []
+    },
+
+    focusFirst (visible) {
+      if (!visible) return
+      const elements = this.getFocusableElements()
+      if (elements.length) setTimeout(() => elements[0].focus(), 200)
     },
 
     handleFocusStart () {
