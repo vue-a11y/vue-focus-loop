@@ -1,80 +1,60 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      Vue component that helps you to to trap focus in an element.
-    </p>
-    <button @click="activeTrap = !activeTrap">
-      {{ activeTrap ? 'Hide' : 'Show' }} links with focus loop
-    </button>
-    <FocusLoop v-if="activeTrap">
-      <ul class="links">
-        <li>
-          <a
-            href="https://vuejs.org"
-            target="_blank"
-            rel="noopener"
-          >Core Docs</a>
-        </li>
-        <li>
-          <a
-            href="https://forum.vuejs.org"
-            target="_blank"
-            rel="noopener"
-          >Forum</a>
-        </li>
-        <li>
-          <a
-            href="https://chat.vuejs.org"
-            target="_blank"
-            rel="noopener"
-          >Community Chat</a>
-        </li>
-        <li>
-          <a
-            href="https://twitter.com/vuejs"
-            target="_blank"
-            rel="noopener"
-          >Twitter</a>
-        </li>
-        <li>
-          <a
-            href="https://news.vuejs.org"
-            target="_blank"
-            rel="noopener"
-          >News</a>
-        </li>
-        <li style="margin-top: 20px;">
-          <button @click="activeTrap = false">
-            Close
-          </button>
-        </li>
-      </ul>
-    </FocusLoop>
-  </div>
+  <h1>@vue-a11y/focus-loop</h1>
+  <p>
+    Vue component that helps you to to trap focus in an element.
+  </p>
+  <button @click="activeTrap = !activeTrap">
+    {{ activeTrap ? 'Hide' : 'Show' }} links with focus loop
+  </button>
+  <FocusLoop v-if="activeTrap">
+    <ul class="links">
+      <li v-for="link in links" :key="link.label">
+        <a
+          :href="link.href"
+          target="_blank"
+          rel="noopener"
+        >
+          {{ link.label }}
+        </a>
+      </li>
+      <li style="margin-top: 20px;">
+        <button @click="activeTrap = false">
+          Close
+        </button>
+      </li>
+    </ul>
+  </FocusLoop>
 </template>
 
-<script>
-import { FocusLoop } from '../../vue-focus-loop'
+<script lang="ts">
+import { ref, defineComponent } from 'vue'
+import { FocusLoop } from '../../../src'
 
-export default {
+export default defineComponent({
   name: 'HelloWorld',
 
   components: {
     FocusLoop
   },
 
-  props: {
-    msg: String
-  },
+  setup () {
+    const activeTrap = ref(false)
+    const links = ref([
+      { label: 'Core Docs', href: 'https://vuejs.org' },
+      { label: 'Forum', href: 'https://forum.vuejs.org' },
+      { label: 'Community chat', href: 'https://chat.vuejs.org' },
+      { label: 'Twitter', href: 'https://twitter.com/vuejs' },
+      { label: 'News', href: 'https://news.vuejs.org' },
+    ])
 
-  data: () => ({
-    activeTrap: false
-  })
-}
+    return {
+      links,
+      activeTrap
+    }
+  }
+})
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 a {
   color: #333;

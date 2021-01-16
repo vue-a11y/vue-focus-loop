@@ -1,0 +1,26 @@
+const path = require('path')
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
+
+export default defineConfig({
+  plugins: [vue()],
+  build: {
+    ssr: true,
+    outDir: path.resolve(__dirname, 'dist'),
+    emptyOutDir: true,
+    lib: {
+      entry: path.resolve(__dirname, 'src'),
+      name: 'VueFocusLoop',
+      formats: ['es', 'cjs', 'iife']
+    },
+    rollupOptions: {
+      external: ['vue'],
+      output: {
+        exports: 'named',
+        globals: {
+          vue: 'Vue'
+        }
+      }
+    }
+  }
+})

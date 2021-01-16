@@ -4,7 +4,7 @@
       :tabindex="getTabindex"
       @focus="handleFocusStart"
     />
-    <div ref="focusLoop">
+    <div ref="focusLoopRef">
       <slot />
     </div>
     <div
@@ -14,7 +14,9 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { ref, defineComponent, computed, watch, onMounted } from 'vue'
+
 const focusableElementsSelector = [
   ...['input', 'select', 'button', 'textarea'].map(field => `${field}:not([disabled])`),
   'a[href]',
@@ -24,7 +26,7 @@ const focusableElementsSelector = [
   '[contenteditable]:not([contenteditable="false"])'
 ].join(',')
 
-export default {
+export default defineComponent({
   name: 'FocusLoop',
 
   props: {
@@ -38,52 +40,47 @@ export default {
     }
   },
 
-  data () {
-    return {
-      alreadyFocused: false
+  setup (props) {
+    const focusLoopRef = ref<InstanceType<any>>(null)
+    const alreadyFocused = ref(false)
+    const getTabindex = computed((): number => props.disabled ? -1 : 0)
+    watch(() => props.isVisible, focusFirst)
+
+    onMounted(() => focusFirst(props.isVisible || true))
+
+    function focusFirst (visible: boolean): void {
+      if (visible) {
+        const elements = getFocusableElements()
+        if (elements.length) setTimeout(() => elements[0].focus(), 200)        
+      }
     }
-  },
 
-  computed: {
-    getTabindex () {
-      return this.disabled ? -1 : 0
-    }
-  },
-
-  watch: {
-    isVisible: 'focusFirst'
-  },
-
-  mounted () {
-    this.focusFirst(this.isVisible || true)
-  },
-
-  methods: {
-    getFocusableElements () {
-      const focusableElements = this.$refs.focusLoop.querySelectorAll(focusableElementsSelector)
+    function getFocusableElements (): HTMLElement[] {
+      const focusableElements = focusLoopRef.value.querySelectorAll(focusableElementsSelector)
       if (focusableElements && focusableElements.length) return focusableElements
       return []
-    },
+    }
 
-    focusFirst (visible) {
-      if (!visible) return
-      const elements = this.getFocusableElements()
-      if (elements.length) setTimeout(() => elements[0].focus(), 200)
-    },
-
-    handleFocusStart () {
-      const elements = this.getFocusableElements()
+    function handleFocusStart (): void {
+      const elements: HTMLElement[] = getFocusableElements()
       if (elements.length) {
-        const index = this.alreadyFocused ? elements.length - 1 : 0
-        this.alreadyFocused = true
+        const index = alreadyFocused.value ? elements.length - 1 : 0
+        alreadyFocused.value = true
         elements[index].focus()
       }
-    },
+    }
 
-    handleFocusEnd () {
-      const elements = this.getFocusableElements()
+    function handleFocusEnd (): void {
+      const elements: HTMLElement[] = getFocusableElements()
       elements.length && elements[0].focus()
     }
+
+    return {
+      focusLoopRef,
+      getTabindex,
+      handleFocusEnd,
+      handleFocusStart
+    }
   }
-}
+})
 </script>
