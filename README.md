@@ -2,6 +2,8 @@
 
 Vue component that helps you to to trap focus in an element.
 
+**Are you using Vue 3?** Check out [VueFocusLoop next](https://github.com/vue-a11y/vue-focus-loop/tree/next)
+
 ---
 
 When developing accessible components, in certain behaviors it is important to trap focus on the element.
