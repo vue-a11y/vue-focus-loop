@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.1](https://github.com/vue-a11y/vue-focus-loop/compare/v1.0.0...v1.0.1) (2021-01-16)
+
+
+### Bug Fixes
+
+* Use next in "project:publish" npm command ([1620498](https://github.com/vue-a11y/vue-focus-loop/commit/16204988be6ec3840ac774f37269a768dcb0abd8))
+
 ## [1.0.0](https://github.com/vue-a11y/vue-focus-loop/compare/v0.1.2...v1.0.0) (2021-01-16)
 
 
