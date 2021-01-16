@@ -10,18 +10,18 @@ For example, when opening a modal, it is recommended that the focus is only on t
 
 ## Installation
 
-Add `@vue-a11y/focus-loop` in your Vue project.
+Add `@vue-a11y/focus-loop` for Vue 3 in your Vue project.
 
 ```sh
-npm install -S @vue-a11y/focus-loop
+npm install -S @vue-a11y/focus-loop@next
 # or
-yarn add @vue-a11y/focus-loop
+yarn add @vue-a11y/focus-loop@next
 ```
 
 Or via CDN
 
 ```html
-<script src="http://unpkg.com/@vue-a11y/focus-loop"></script>
+<script src="http://unpkg.com/@vue-a11y/focus-loop@next"></script>
 ```
 
 ## Usage
