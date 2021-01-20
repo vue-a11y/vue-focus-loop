@@ -1,24 +1,26 @@
 {
   "name": "@vue-a11y/focus-loop",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Vue 3 component that helps you to to trap focus in an element.",
-  "main": "dist/@vue-a11y/focus-loop.cjs.js",
-  "browser": "dist/@vue-a11y/focus-loop.es.js",
-  "module": "dist/@vue-a11y/focus-loop.es.js",
-  "unpkg": "dist/@vue-a11y/focus-loop.iife.js",
-  "jsdelivr": "dist/@vue-a11y/focus-loop.iife.js",
+  "main": "dist/focus-loop.cjs.js",
+  "browser": "dist/focus-loop.es.js",
+  "module": "dist/focus-loop.es.js",
+  "unpkg": "dist/focus-loop.iife.js",
+  "jsdelivr": "dist/focus-loop.iife.js",
+  "types": "dist/global.d.ts",
   "files": [
     "dist"
   ],
   "exports": {
     ".": {
-      "import": "./dist/@vue-a11y/focus-loop.es.js",
-      "require": "./dist/@vue-a11y/focus-loop.cjs.js"
+      "import": "./dist/focus-loop.es.js",
+      "require": "./dist/focus-loop.cjs.js"
     }
   },
   "scripts": {
     "dev": "vite",
-    "build": "vuedx-typecheck . && vite build",
+    "build": "vuedx-typecheck . && vite build && npm run fixFiles",
+    "fixFiles": "cp src/global.d.ts dist && cp -a dist/@vue-a11y/. dist && rm -rf dist/@vue-a11y",
     "demo:dev": "cd demo && npm run dev",
     "demo:build": "cd demo && npm run build",
     "demo:publish": "surge ./demo/dist https://vue-focus-loop.surge.sh/",
@@ -55,7 +57,7 @@
     "@types/node": "^14.14.21",
     "@vitejs/plugin-vue": "^1.0.4",
     "@vue/compiler-sfc": "^3.0.5",
-    "@vuedx/typecheck": "^0.5.0",
+    "@vuedx/typecheck": "^0.6.0",
     "@vuedx/typescript-plugin-vue": "^0.4.1",
     "standard-version": "^9.1.0",
     "typescript": "^4.1.3",
