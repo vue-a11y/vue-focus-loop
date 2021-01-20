@@ -1,10 +1,12 @@
 # [@vue-a11y/focus-loop](https://focus-loop.vue-a11y.com)
 
-Vue component that helps you to to trap focus in an element.
-
-**Are you using Vue 3?** Check out [VueFocusLoop next](https://github.com/vue-a11y/vue-focus-loop/tree/next)
+---
+🔥 HEADS UP! You are in the Vue 2 compatible branch, [check the "next" branch for Vue3 support](https://github.com/vue-a11y/vue-focus-loop/tree/next).
 
 ---
+## Introduction
+
+Vue component that helps you to to trap focus in an element.
 
 When developing accessible components, in certain behaviors it is important to trap focus on the element.
 
