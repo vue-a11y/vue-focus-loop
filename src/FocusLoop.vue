@@ -36,7 +36,7 @@ export default defineComponent({
     },
     isVisible: {
       type: Boolean,
-      default: false
+      default: true
     }
   },
 
@@ -46,7 +46,7 @@ export default defineComponent({
     const getTabindex = computed((): number => props.disabled ? -1 : 0)
     watch(() => props.isVisible, focusFirst)
 
-    onMounted(() => focusFirst(props.isVisible !== null && props.isVisible !== undefined ? props.isVisible : true))
+    onMounted(() => focusFirst(props.isVisible))
 
     function focusFirst (visible: boolean): void {
       if (visible) {

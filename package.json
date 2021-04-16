@@ -18,7 +18,7 @@
     }
   },
   "scripts": {
-    "dev": "vite",
+    "dev": "npm run demo:dev",
     "build": "vuedx-typecheck . && vite build && npm run fixFiles",
     "fixFiles": "cp -a dist/@vue-a11y/. dist && rm -rf dist/@vue-a11y dist/favicon.ico",
     "demo:dev": "cd demo && npm run dev",
