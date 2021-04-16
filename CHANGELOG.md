@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.4](https://github.com/vue-a11y/vue-focus-loop/compare/v1.0.3...v1.0.4) (2021-04-16)
+
+
+### Bug Fixes
+
+* Add type App ([2e1b05c](https://github.com/vue-a11y/vue-focus-loop/commit/2e1b05cf67303db9d51ba0564bb9bd0d9d25facc))
+* Declaration types ([1fe8325](https://github.com/vue-a11y/vue-focus-loop/commit/1fe8325c5aadd3d61fd9bed3591c9591f18a4532))
+* isVisible prop true by default ([f7da3be](https://github.com/vue-a11y/vue-focus-loop/commit/f7da3bede002eedc0b5e899107641ed12010d792))
+
 ### [1.0.3](https://github.com/vue-a11y/vue-focus-loop/compare/v1.0.1...v1.0.3) (2021-01-20)
 
 
