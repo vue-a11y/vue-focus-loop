@@ -3,11 +3,10 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [
+    vue({ isProduction: true })
+  ],
   build: {
-    ssr: true,
-    outDir: path.resolve(__dirname, 'dist'),
-    emptyOutDir: true,
     lib: {
       entry: path.resolve(__dirname, 'src'),
       name: 'VueFocusLoop',

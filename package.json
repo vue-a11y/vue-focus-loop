@@ -7,7 +7,7 @@
   "module": "dist/focus-loop.es.js",
   "unpkg": "dist/focus-loop.iife.js",
   "jsdelivr": "dist/focus-loop.iife.js",
-  "types": "dist/global.d.ts",
+  "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
@@ -19,8 +19,10 @@
   },
   "scripts": {
     "dev": "npm run demo:dev",
-    "build": "vuedx-typecheck . && vite build && npm run fixFiles",
-    "fixFiles": "cp -a dist/@vue-a11y/. dist && rm -rf dist/@vue-a11y dist/favicon.ico",
+    "build": "npm-run-all -s clean build:*",
+    "build:vite": "vue-tsc --noEmit && vite build",
+    "build:types": "tsc --emitDeclarationOnly",
+    "clean": "rm -rf dist",
     "demo:dev": "cd demo && npm run dev",
     "demo:build": "cd demo && npm run build",
     "demo:publish": "surge ./demo/dist https://vue-focus-loop.surge.sh/",
@@ -59,8 +61,10 @@
     "@vue/compiler-sfc": "^3.0.5",
     "@vuedx/typecheck": "^0.6.0",
     "@vuedx/typescript-plugin-vue": "^0.4.1",
-    "standard-version": "^9.1.0",
+    "npm-run-all": "^4.1.5",
+    "standard-version": "^9.2.0",
     "typescript": "^4.1.3",
-    "vite": "^2.0.0-beta.12"
+    "vite": "^2.1.5",
+    "vue-tsc": "0.0.24"
   }
 }
