@@ -31,14 +31,9 @@
 
 <script lang="ts">
 import { ref, defineComponent } from 'vue'
-import { FocusLoop } from '../../../src'
 
 export default defineComponent({
   name: 'HelloWorld',
-
-  components: {
-    FocusLoop
-  },
 
   setup () {
     const activeTrap = ref(false)
