@@ -27,7 +27,7 @@
     "demo:build": "cd demo && npm run build",
     "demo:publish": "surge ./demo/dist https://vue-focus-loop.surge.sh/",
     "release": "standard-version",
-    "project:publish": "git push --tags origin next && npm run build && npm publish --tag next"
+    "project:publish": "git push --tags origin next && npm run build && npm publish --public --tag next"
   },
   "repository": {
     "type": "git",
