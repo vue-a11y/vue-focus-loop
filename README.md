@@ -128,6 +128,22 @@ For example:
 </FocusLoop>
 ```
 
+## Disable autofocus on the first element
+
+When activating the `<FocusLoop>`, the first element receives the focus automatically, however, if you want to disable this behavior, just disable it through the `autoFocus` prop.
+
+prop        | type      | default
+----------- | --------- | ------------
+autoFocus   | `Boolean` | `true`
+
+For example:
+
+```html
+<FocusLoop :auto-focus="false">
+  <!-- your elements here -->
+</FocusLoop>
+```
+
 ## Keyboard support
 
 Keyboard users will use `Tab` and `Shift + Tab` to navigate tabbable elements.  

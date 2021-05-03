@@ -37,6 +37,10 @@ export default defineComponent({
     isVisible: {
       type: Boolean,
       default: true
+    },
+    autoFocus: {
+      type: Boolean,
+      default: true
     }
   },
 
@@ -49,7 +53,7 @@ export default defineComponent({
     onMounted(() => focusFirst(props.isVisible))
 
     function focusFirst (visible: boolean): void {
-      if (visible) {
+      if (visible && props.autoFocus) {
         const elements = getFocusableElements()
         if (elements.length) setTimeout(() => elements[0].focus(), 200)        
       }
