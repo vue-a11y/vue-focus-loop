@@ -55,14 +55,8 @@
 </template>
 
 <script>
-import { FocusLoop } from '../../vue-focus-loop'
-
 export default {
   name: 'HelloWorld',
-
-  components: {
-    FocusLoop
-  },
 
   props: {
     msg: String
