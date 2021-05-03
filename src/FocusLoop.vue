@@ -1,21 +1,27 @@
 <template>
-  <div class="vue-focus-loop">
+  <div
+    v-if="isVisible"
+    ref="focusLoopContainerRef"
+    class="vue-focus-loop"
+  >
     <div
       :tabindex="getTabindex"
+      aria-hidden="true"
       @focus="handleFocusStart"
     />
-    <div ref="focusLoopRef">
+    <div ref="focusLoopContentRef">
       <slot />
     </div>
     <div
       :tabindex="getTabindex"
+      aria-hidden="true"
       @focus="handleFocusEnd"
     />
   </div>
 </template>
 
 <script lang="ts">
-import { ref, defineComponent, computed, watch, onMounted, onUnmounted } from 'vue'
+import { ref, nextTick, defineComponent, computed, watch, onMounted, onUnmounted } from 'vue'
 
 const focusableElementsSelector = [
   ...['input', 'select', 'button', 'textarea'].map(field => `${field}:not([disabled])`),
@@ -25,6 +31,8 @@ const focusableElementsSelector = [
   '[tabindex]:not([tabindex^="-"])',
   '[contenteditable]:not([contenteditable="false"])'
 ].join(',')
+
+let ariaHiddenElements: Element[] = []
 
 export default defineComponent({
   name: 'FocusLoop',
@@ -45,45 +53,71 @@ export default defineComponent({
   },
 
   setup (props) {
-    const focusLoopRef = ref<InstanceType<any>>(null)
+    const focusLoopContainerRef = ref<InstanceType<any>>(null)
+    const focusLoopContentRef = ref<InstanceType<any>>(null)
     const alreadyFocused = ref(false)
     const getTabindex = computed((): number => props.disabled ? -1 : 0)
     
-    watch(() => props.isVisible, val => {
-      managePrevFocusElement(val)
-      focusFirst(val)
-    })
+    watch([() => props.disabled, () => props.isVisible], init)
 
-    onMounted(() => {
-      managePrevFocusElement(props.isVisible)
-      focusFirst(props.isVisible)
-    })
+    onMounted(init)
 
-    onUnmounted(() => {
-      managePrevFocusElement(false)
-    })
+    function init () {
+      nextTick(() => {
+        const active = props.isVisible && !props.disabled
+        !props.disabled && focusFirst(active && props.autoFocus)
+        managePrevFocusElement(active)
+        lockForSwipeScreenReader(active)
+        if (!active) {
+          ariaHiddenElements = []
+        }
+      })
+    }
 
-    function managePrevFocusElement (visible: boolean) {
-      if (!visible && window.vflPrevFocusedElement) {
+    function managePrevFocusElement (active: boolean) {
+      if (!active && window.vflPrevFocusedElement) {
         return window.vflPrevFocusedElement.focus()
       }
       window.vflPrevFocusedElement = document.activeElement
     }
 
-    function focusFirst (visible: boolean): void {
-      if (visible && props.autoFocus) {
+    function getElementsToAriaHidden (focusLoopContainer: HTMLElement) {
+      function getElements (element: Element) {
+        const children: Element[] = Array.from(element.children)
+        children.forEach((el: Element) => {
+          if (el === focusLoopContainer) return
+          if (!el.contains(focusLoopContainer)) {
+            ariaHiddenElements.push(el)
+            return
+          }
+          getElements(el)
+        })
+      }
+      getElements(document.body)
+    }
+
+    function lockForSwipeScreenReader (active: boolean = true) {
+      if (active) getElementsToAriaHidden(focusLoopContainerRef.value)
+      ariaHiddenElements.forEach(el => {
+        if (['SCRIPT', 'STYLE'].includes(el.nodeName) || el.hasAttribute('aria-live')) return
+        el.setAttribute('aria-hidden', active.toString())
+      })
+    }
+
+    function focusFirst (isAutoFocus: boolean) {
+      if (isAutoFocus) {
         const elements = getFocusableElements()
         if (elements.length) setTimeout(() => elements[0].focus(), 200)        
       }
     }
 
     function getFocusableElements (): HTMLElement[] {
-      const focusableElements = focusLoopRef.value.querySelectorAll(focusableElementsSelector)
+      const focusableElements = focusLoopContentRef.value.querySelectorAll(focusableElementsSelector)
       if (focusableElements && focusableElements.length) return focusableElements
       return []
     }
 
-    function handleFocusStart (): void {
+    function handleFocusStart () {
       const elements: HTMLElement[] = getFocusableElements()
       if (elements.length) {
         const index = alreadyFocused.value ? elements.length - 1 : 0
@@ -92,17 +126,20 @@ export default defineComponent({
       }
     }
 
-    function handleFocusEnd (): void {
+    function handleFocusEnd () {
       const elements: HTMLElement[] = getFocusableElements()
       elements.length && elements[0].focus()
     }
 
     return {
-      focusLoopRef,
       getTabindex,
       handleFocusEnd,
-      handleFocusStart
+      handleFocusStart,
+      focusLoopContentRef,
+      focusLoopContainerRef
     }
   }
 })
 </script>
+
+<style></style>
