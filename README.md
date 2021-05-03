@@ -122,7 +122,10 @@ isVisible   | `Boolean` | `false`
 For example:
 
 ```html
-<FocusLoop :is-visible="isSidebarOpen">
+<FocusLoop
+  :is-visible="isSidebarOpen"
+  :disabled="!isSidebarOpen"
+>
   <!-- your elements here -->
 </FocusLoop>
 ```
