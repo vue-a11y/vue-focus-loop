@@ -59,7 +59,7 @@ export default {
     <b-button v-b-modal.modal-1>Launch demo modal</b-button>
 
     <b-modal id="modal-1" title="BootstrapVue">
-      <FocusLoop>
+      <FocusLoop :is-visible="isOpen">
         <b-form @submit="onSubmit" @reset="onReset" v-if="show">
           <b-form-group id="input-group-2" label="Your Name:" label-for="input-1">
             <b-form-input
@@ -89,6 +89,18 @@ export default {
 </template>
 ```
 
+## Make the focus-loop container visible and rendered
+
+prop       | type      | default
+---------- | --------- | ------------
+isVisible  | `Boolean` | `false`
+
+```html
+<FocusLoop :is-visible="isOpen">
+  <!-- your elements here -->
+</FocusLoop>
+```
+
 ## Disable loop
 
 You can disable the focus trap and activate it only when you really need it.
@@ -100,32 +112,7 @@ disabled   | `Boolean` | `false`
 For example:
 
 ```html
-
-<FocusLoop disabled>
-  <!-- your elements here -->
-</FocusLoop>
-
-```
-
-## Focus in first element
-
-There are 2 ways in which `<FocusLoop>` sets the focus on the first element.
-
-Using `v-if`, for example `<FocusLoop v-if="isSidebarOpen">`, the first element is automatically focused when `mounted`.
-
-If you have `<FocusLoop>` mounted, but hidden using CSS, you can set the focus on the first element when visible.
-
-prop        | type      | default
------------ | --------- | ------------
-isVisible   | `Boolean` | `false`
-
-For example:
-
-```html
-<FocusLoop
-  :is-visible="isSidebarOpen"
-  :disabled="!isSidebarOpen"
->
+<FocusLoop :is-visible="isOpen" disabled>
   <!-- your elements here -->
 </FocusLoop>
 ```
@@ -141,7 +128,7 @@ autoFocus   | `Boolean` | `true`
 For example:
 
 ```html
-<FocusLoop :auto-focus="false">
+<FocusLoop :is-visible="isOpen" :auto-focus="false">
   <!-- your elements here -->
 </FocusLoop>
 ```
