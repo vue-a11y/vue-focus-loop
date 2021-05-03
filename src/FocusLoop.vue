@@ -1,7 +1,12 @@
 <template>
-  <div class="vue-focus-loop">
+  <div
+    v-if="isVisible"
+    ref="VuefocusLoopContainer"
+    class="vue-focus-loop"
+  >
     <div
       :tabindex="getTabindex"
+      aria-hidden="true"
       @focus="handleFocusStart"
     />
     <div ref="focusLoop">
@@ -9,6 +14,7 @@
     </div>
     <div
       :tabindex="getTabindex"
+      aria-hidden="true"
       @focus="handleFocusEnd"
     />
   </div>
@@ -23,6 +29,8 @@ const focusableElementsSelector = [
   '[tabindex]:not([tabindex^="-"])',
   '[contenteditable]:not([contenteditable="false"])'
 ].join(',')
+
+let ariaHiddenElements = []
 
 export default {
   name: 'FocusLoop',
@@ -55,39 +63,68 @@ export default {
   },
 
   watch: {
-    isVisible (val) {
-      this.managePrevFocusElement(val)
-      this.focusFirst(val)
-    }
+    isVisible: 'init',
+    disabled: 'init'
   },
 
   mounted () {
-    this.managePrevFocusElement(this.isVisible)
-    this.focusFirst(this.isVisible)
-  },
-
-  beforeDestroy () {
-    this.managePrevFocusElement(false)
+    this.init()
   },
 
   methods: {
-    managePrevFocusElement (visible) {
-      if (!visible && window.vflPrevFocusedElement) {
+    init () {
+      this.$nextTick(() => {
+        const active = this.isVisible && !this.disabled
+        !this.disabled && this.focusFirst(active && this.autoFocus)
+        this.managePrevFocusElement(active)
+        this.lockForSwipeScreenReader(active)
+        if (!active) {
+          ariaHiddenElements = []
+        }
+      })
+    },
+
+    managePrevFocusElement (active) {
+      if (!active && window.vflPrevFocusedElement) {
         return window.vflPrevFocusedElement.focus()
       }
       window.vflPrevFocusedElement = document.activeElement
+    },
+
+    getElementsToAriaHidden (focusLoopContainer) {
+      function getElements (element) {
+        const children = Array.from(element.children)
+        children.forEach(el => {
+          if (el === focusLoopContainer) return
+          if (!el.contains(focusLoopContainer)) {
+            ariaHiddenElements.push(el)
+            return
+          }
+          getElements(el)
+        })
+      }
+      getElements(document.body)
+    },
+
+    lockForSwipeScreenReader (active = true) {
+      if (active) this.getElementsToAriaHidden(this.$refs.VuefocusLoopContainer)
+      ariaHiddenElements.forEach(el => {
+        if (['SCRIPT', 'STYLE'].includes(el.nodeName) || el.hasAttribute('aria-live')) return
+        el.setAttribute('aria-hidden', active.toString())
+      })
+    },
+
+    focusFirst (isAutoFocus) {
+      if (isAutoFocus) {
+        const elements = this.getFocusableElements()
+        if (elements.length) setTimeout(() => elements[0].focus(), 200)
+      }
     },
 
     getFocusableElements () {
       const focusableElements = this.$refs.focusLoop.querySelectorAll(focusableElementsSelector)
       if (focusableElements && focusableElements.length) return focusableElements
       return []
-    },
-
-    focusFirst (visible) {
-      if (!visible && !this.autoFocus) return
-      const elements = this.getFocusableElements()
-      if (elements.length) setTimeout(() => elements[0].focus(), 200)
     },
 
     handleFocusStart () {
