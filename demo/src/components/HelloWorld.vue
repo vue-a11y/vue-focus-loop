@@ -7,7 +7,7 @@
     <button @click="activeTrap = !activeTrap">
       {{ activeTrap ? 'Hide' : 'Show' }} links with focus loop
     </button>
-    <FocusLoop v-if="activeTrap">
+    <FocusLoop :is-visible="activeTrap">
       <ul class="links">
         <li>
           <a

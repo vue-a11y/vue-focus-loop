@@ -4,7 +4,7 @@
       alt="Vue logo"
       src="./assets/vue-a11y-logo.png"
     >
-    <HelloWorld msg="@vue-a11y/focus-loop" />
+    <HelloWorld msg="@vue-a11y/focus-loop Vue 2" />
   </div>
 </template>
 
