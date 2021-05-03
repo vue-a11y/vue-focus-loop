@@ -35,6 +35,10 @@ export default {
     isVisible: {
       type: Boolean,
       default: false
+    },
+    autoFocus: {
+      type: Boolean,
+      default: true
     }
   },
 
@@ -55,7 +59,7 @@ export default {
   },
 
   mounted () {
-    this.focusFirst(this.isVisible || true)
+    this.focusFirst(this.isVisible)
   },
 
   methods: {
@@ -66,7 +70,7 @@ export default {
     },
 
     focusFirst (visible) {
-      if (!visible) return
+      if (!visible && !this.autoFocus) return
       const elements = this.getFocusableElements()
       if (elements.length) setTimeout(() => elements[0].focus(), 200)
     },

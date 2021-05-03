@@ -122,7 +122,23 @@ isVisible   | `Boolean` | `false`
 For example:
 
 ```html
-<FocusLoop :isVisible="isSidebarOpen">
+<FocusLoop :is-visible="isSidebarOpen">
+  <!-- your elements here -->
+</FocusLoop>
+```
+
+## Disable autofocus on the first element
+
+When activating the `<FocusLoop>`, the first element receives the focus automatically, however, if you want to disable this behavior, just disable it through the `autoFocus` prop.
+
+prop        | type      | default
+----------- | --------- | ------------
+autoFocus   | `Boolean` | `true`
+
+For example:
+
+```html
+<FocusLoop :auto-focus="false">
   <!-- your elements here -->
 </FocusLoop>
 ```
