@@ -55,14 +55,29 @@ export default {
   },
 
   watch: {
-    isVisible: 'focusFirst'
+    isVisible (val) {
+      this.managePrevFocusElement(val)
+      this.focusFirst(val)
+    }
   },
 
   mounted () {
+    this.managePrevFocusElement(this.isVisible)
     this.focusFirst(this.isVisible)
   },
 
+  beforeDestroy () {
+    this.managePrevFocusElement(false)
+  },
+
   methods: {
+    managePrevFocusElement (visible) {
+      if (!visible && window.vflPrevFocusedElement) {
+        return window.vflPrevFocusedElement.focus()
+      }
+      window.vflPrevFocusedElement = document.activeElement
+    },
+
     getFocusableElements () {
       const focusableElements = this.$refs.focusLoop.querySelectorAll(focusableElementsSelector)
       if (focusableElements && focusableElements.length) return focusableElements
