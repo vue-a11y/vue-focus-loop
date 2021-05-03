@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent, computed, watch, onMounted } from 'vue'
+import { ref, defineComponent, computed, watch, onMounted, onUnmounted } from 'vue'
 
 const focusableElementsSelector = [
   ...['input', 'select', 'button', 'textarea'].map(field => `${field}:not([disabled])`),
@@ -48,9 +48,27 @@ export default defineComponent({
     const focusLoopRef = ref<InstanceType<any>>(null)
     const alreadyFocused = ref(false)
     const getTabindex = computed((): number => props.disabled ? -1 : 0)
-    watch(() => props.isVisible, focusFirst)
+    
+    watch(() => props.isVisible, val => {
+      managePrevFocusElement(val)
+      focusFirst(val)
+    })
 
-    onMounted(() => focusFirst(props.isVisible))
+    onMounted(() => {
+      managePrevFocusElement(props.isVisible)
+      focusFirst(props.isVisible)
+    })
+
+    onUnmounted(() => {
+      managePrevFocusElement(false)
+    })
+
+    function managePrevFocusElement (visible: boolean) {
+      if (!visible && window.vflPrevFocusedElement) {
+        return window.vflPrevFocusedElement.focus()
+      }
+      window.vflPrevFocusedElement = document.activeElement
+    }
 
     function focusFirst (visible: boolean): void {
       if (visible && props.autoFocus) {
