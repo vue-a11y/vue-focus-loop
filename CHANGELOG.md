@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/vue-a11y/vue-focus-loop/compare/v1.0.4...v1.1.0) (2021-05-04)
+
+
+### Features
+
+* Add autoFocus props ([124b7a6](https://github.com/vue-a11y/vue-focus-loop/commit/124b7a6de244002d05d2b5d9ac13cb2a7ad12488))
+* Content outside inert for assistive technology users ([81e4b2d](https://github.com/vue-a11y/vue-focus-loop/commit/81e4b2d3467a4fc03081929ff1807fe6a1ad17e2))
+
 ### [1.0.4](https://github.com/vue-a11y/vue-focus-loop/compare/v1.0.3...v1.0.4) (2021-04-16)
 
 
