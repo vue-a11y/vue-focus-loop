@@ -13,6 +13,11 @@ When developing accessible components, in certain behaviors it is important to t
 
 For example, when opening a modal, it is recommended that the focus is only on the tabbable elements of that modal and only release the focus, when the modal is closed.
 
+- Focus is trapped: Tab and Shift+Tab will cycle through the focusable nodes within `<FocusLoop>` without returning to the main document below;
+- Automatic focus on the first focusable element, with the option to disable;
+- Restoring focus to the last activeElement;
+- Hides the document from screen readers when `<focusLoop>` is visible and enabled.
+
 ## Installation
 
 Add `@vue-a11y/focus-loop` for Vue 3 in your Vue project.
