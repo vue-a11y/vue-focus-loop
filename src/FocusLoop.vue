@@ -81,6 +81,9 @@ export default {
         if (!active) {
           ariaHiddenElements = []
         }
+        if (this.autoFocus) {
+          this.alreadyFocused = active
+        }
       })
     },
 
